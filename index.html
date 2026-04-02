@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REKINDLED — 7-Day Ministry Retreat</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E8C4;
+    --deep: #1A0E2E;
+    --deep-mid: #2D1B4E;
+    --deep-soft: #3D2860;
+    --rose: #C4687A;
+    --rose-soft: #E8A0AD;
+    --cream: #FAF6EE;
+    --warm: #F2EBD9;
+    --text: #2C1A3A;
+    --text-soft: #5C4A70;
+    --ember: #E8713A;
+    --ember-soft: #F5A07A;
+    --white: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: var(--deep);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === FLAME BACKGROUND === */
+  .flame-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at 20% 80%, rgba(232,113,58,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(196,104,122,0.10) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(45,27,78,0.9) 0%, var(--deep) 70%);
+  }
+  .flame-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.3;
+  }
+
+  /* === SCREENS === */
+  .screen { display: none; position: relative; z-index: 1; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* === SPLASH SCREEN === */
+  #splash {
+    align-items: center; justify-content: center; text-align: center;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(180deg, var(--deep) 0%, #0D0820 100%);
+  }
+  .splash-flame {
+    font-size: 4rem; margin-bottom: 1rem;
+    animation: flicker 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 20px rgba(232,113,58,0.8));
+  }
+  @keyframes flicker {
+    0% { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 20px rgba(232,113,58,0.8)); }
+    100% { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 0 35px rgba(248,180,100,1)); }
+  }
+  .splash-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 12vw, 5.5rem);
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(201,168,76,0.4);
+    margin-bottom: 0.5rem;
+  }
+  .splash-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+    color: var(--rose-soft);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .splash-tagline {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    font-style: italic;
+    color: var(--gold-pale);
+    max-width: 420px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .gold-line {
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.2rem auto;
+  }
+
+  /* === BUTTONS === */
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--deep);
+    border: none; border-radius: 50px;
+    padding: 0.85rem 2.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.6); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1.5px solid var(--gold);
+    border-radius: 50px;
+    padding: 0.7rem 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { background: rgba(201,168,76,0.1); transform: translateY(-1px); }
+
+  .btn-ember {
+    background: linear-gradient(135deg, var(--ember), var(--ember-soft));
+    color: white; border: none; border-radius: 50px;
+    padding: 0.7rem 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.1em;
+    cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(232,113,58,0.35);
+  }
+  .btn-ember:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,113,58,0.5); }
+
+  .btn-rose {
+    background: linear-gradient(135deg, var(--rose), var(--rose-soft));
+    color: white; border: none; border-radius: 50px;
+    padding: 0.7rem 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.1em;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .btn-rose:hover { transform: translateY(-1px); }
+
+  /* === FORMS === */
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block; font-size: 0.85rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.4rem;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 10px; color: var(--cream);
+    font-family: 'Crimson Pro', serif; font-size: 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--gold); background: rgba(255,255,255,0.09);
+  }
+  .form-group select option { background: var(--deep-mid); }
+
+  /* === NAV === */
+  .nav-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(26,14,46,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0.8rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 1.3rem;
+    color: var(--gold); letter-spacing: 0.15em;
+  }
+  .nav-logo span { color: var(--rose-soft); }
+  .nav-user { font-size: 0.85rem; color: var(--gold-pale); font-style: italic; }
+  .nav-btns { display: flex; gap: 0.5rem; }
+  .nav-btn {
+    background: none; border: none; color: var(--gold-light);
+    font-size: 1.2rem; cursor: pointer; padding: 0.3rem;
+    transition: color 0.2s;
+  }
+  .nav-btn:hover { color: var(--gold); }
+
+  /* === DASHBOARD === */
+  #dashboard { background: linear-gradient(180deg, var(--deep) 0%, #0D0820 100%); }
+  .dash-header {
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .dash-greeting {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 0.3rem;
+  }
+  .dash-verse {
+    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+    color: var(--gold-pale);
+    font-style: italic; line-height: 1.6;
+    max-width: 400px; margin: 0.5rem auto;
+  }
+
+  /* Progress tracker */
+  .progress-section { padding: 1.5rem; }
+  .progress-label {
+    font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--rose-soft); margin-bottom: 0.8rem;
+  }
+  .progress-track {
+    display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap;
+  }
+  .day-dot {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; transition: all 0.3s; position: relative;
+    border: 2px solid rgba(201,168,76,0.3);
+    background: rgba(255,255,255,0.04);
+    color: var(--text-soft);
+    flex-direction: column; gap: 1px;
+  }
+  .day-dot .day-num { font-size: 0.95rem; font-weight: 700; line-height: 1; }
+  .day-dot .day-icon { font-size: 0.65rem; line-height: 1; }
+  .day-dot.completed {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--deep); border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(201,168,76,0.4);
+  }
+  .day-dot.active {
+    border-color: var(--ember);
+    color: var(--ember-soft);
+    box-shadow: 0 0 15px rgba(232,113,58,0.4);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 10px rgba(232,113,58,0.4); }
+    50% { box-shadow: 0 0 25px rgba(232,113,58,0.7); }
+  }
+
+  /* Day cards */
+  .days-grid { padding: 0 1rem 2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .day-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 16px;
+    padding: 1.2rem 1.3rem;
+    cursor: pointer; transition: all 0.3s;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .day-card:hover { background: rgba(255,255,255,0.08); border-color: rgba(201,168,76,0.4); transform: translateY(-2px); }
+  .day-card.locked { opacity: 0.45; cursor: default; }
+  .day-card.locked:hover { transform: none; }
+  .day-card.completed-card { border-color: rgba(201,168,76,0.4); }
+  .day-card-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; flex-shrink: 0;
+    background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2);
+  }
+  .day-card.completed-card .day-card-icon { background: rgba(201,168,76,0.2); }
+  .day-card-info { flex: 1; }
+  .day-card-label {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--rose-soft); margin-bottom: 0.2rem;
+  }
+  .day-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; color: var(--cream);
+    font-style: italic; line-height: 1.3; margin-bottom: 0.2rem;
+  }
+  .day-card-theme { font-size: 0.9rem; color: var(--text-soft); }
+  .day-card-badge {
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+
+  /* === RETREAT DAY SCREEN === */
+  #retreat-day { background: linear-gradient(180deg, var(--deep) 0%, #0D0820 100%); }
+  .retreat-hero {
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(232,113,58,0.08) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .retreat-day-badge {
+    font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--ember-soft); margin-bottom: 0.5rem;
+  }
+  .retreat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
+    font-style: italic; color: var(--gold);
+    line-height: 1.2; margin-bottom: 0.5rem;
+  }
+  .retreat-theme {
+    font-size: clamp(0.95rem, 4vw, 1.1rem);
+    color: var(--rose-soft); font-style: italic;
+  }
+
+  /* Content sections */
+  .content-section {
+    margin: 1.2rem 1rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 16px; padding: 1.3rem;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;
+    cursor: pointer;
+  }
+  .section-icon { font-size: 1.3rem; }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold-light); font-weight: 600;
+  }
+  .section-toggle { margin-left: auto; color: var(--gold); font-size: 0.9rem; }
+  .section-body { font-size: 1.05rem; line-height: 1.85; color: var(--warm); }
+  .section-body p { margin-bottom: 0.9rem; }
+  .section-body p:last-child { margin-bottom: 0; }
+  .scripture-block {
+    background: rgba(201,168,76,0.08);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 0.9rem 1rem; margin: 1rem 0;
+    font-style: italic; color: var(--gold-pale);
+    font-size: 1.05rem; line-height: 1.7;
+  }
+  .scripture-ref { font-size: 0.85rem; color: var(--gold); margin-top: 0.4rem; font-style: normal; font-weight: 600; }
+
+  /* AI Chat area */
+  .ai-chat-area {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  }
+  .ai-chat-area.open { max-height: 9999px; }
+  .ai-messages { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; min-height: 60px; }
+  .ai-msg {
+    padding: 0.8rem 1rem; border-radius: 12px;
+    font-size: 0.98rem; line-height: 1.7; max-width: 92%;
+  }
+  .ai-msg.assistant {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--warm); align-self: flex-start;
+  }
+  .ai-msg.user {
+    background: rgba(196,104,122,0.15);
+    border: 1px solid rgba(196,104,122,0.2);
+    color: var(--cream); align-self: flex-end;
+  }
+  .ai-msg.loading { color: var(--gold-pale); font-style: italic; }
+  .ai-input-row { display: flex; gap: 0.5rem; }
+  .ai-input-row input {
+    flex: 1; padding: 0.7rem 1rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.3); border-radius: 50px;
+    color: var(--cream); font-family: 'Crimson Pro', serif; font-size: 1rem; outline: none;
+  }
+  .ai-input-row input:focus { border-color: var(--gold); }
+  .ai-send-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border: none; border-radius: 50px; padding: 0.7rem 1.1rem;
+    color: var(--deep); cursor: pointer; font-size: 1rem; transition: all 0.2s;
+  }
+  .ai-send-btn:hover { transform: scale(1.05); }
+
+  /* Confession/Prayer input */
+  .personal-section { padding: 0 1rem 2rem; }
+  .personal-card {
+    background: rgba(196,104,122,0.07);
+    border: 1px solid rgba(196,104,122,0.2);
+    border-radius: 16px; padding: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .personal-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--rose-soft); margin-bottom: 0.8rem;
+  }
+  .personal-card textarea {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(196,104,122,0.25); border-radius: 10px;
+    color: var(--cream); font-family: 'Crimson Pro', serif; font-size: 1rem;
+    padding: 0.8rem; resize: vertical; min-height: 90px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .personal-card textarea:focus { border-color: var(--rose); }
+
+  /* Complete day button */
+  .complete-section {
+    padding: 0 1rem 2.5rem; text-align: center;
+  }
+  .complete-msg {
+    font-size: 0.95rem; color: var(--gold-pale); font-style: italic;
+    margin-top: 0.8rem; line-height: 1.6;
+  }
+
+  /* === SIGNUP SCREEN === */
+  #signup {
+    align-items: center; justify-content: flex-start;
+    background: linear-gradient(180deg, var(--deep) 0%, #0D0820 100%);
+    padding: 3rem 1.5rem;
+  }
+  .signup-card {
+    width: 100%; max-width: 440px; margin: 0 auto;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px; padding: 2rem 1.8rem;
+  }
+  .signup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-style: italic; color: var(--gold);
+    text-align: center; margin-bottom: 0.4rem;
+  }
+  .signup-sub {
+    text-align: center; font-size: 0.95rem; color: var(--rose-soft);
+    font-style: italic; margin-bottom: 1.8rem;
+  }
+
+  /* === COMPLETION SCREEN === */
+  #completion {
+    align-items: center; justify-content: center; text-align: center;
+    padding: 2rem 1.5rem;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, var(--deep) 70%);
+  }
+  .completion-flame { font-size: 4.5rem; animation: flicker 2s ease-in-out infinite alternate; margin-bottom: 1rem; }
+  .completion-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 9vw, 3.5rem);
+    font-weight: 900; color: var(--gold);
+    text-shadow: 0 0 40px rgba(201,168,76,0.5);
+    margin-bottom: 0.5rem;
+  }
+  .completion-sub { font-size: 1.1rem; color: var(--rose-soft); font-style: italic; margin-bottom: 1.5rem; }
+  .completion-message {
+    font-size: 1.1rem; color: var(--warm); line-height: 1.8;
+    max-width: 380px; margin: 0 auto 2rem;
+  }
+
+  /* === ADMIN SCREEN === */
+  #admin-screen {
+    background: linear-gradient(180deg, var(--deep) 0%, #0D0820 100%);
+  }
+  .admin-header { padding: 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.15); }
+  .admin-title {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem;
+    color: var(--gold); font-style: italic;
+  }
+  .stats-row { display: flex; gap: 0.8rem; padding: 1rem; flex-wrap: wrap; }
+  .stat-card {
+    flex: 1; min-width: 100px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 14px; padding: 1rem; text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; color: var(--gold); font-weight: 700;
+  }
+  .stat-label { font-size: 0.78rem; color: var(--text-soft); letter-spacing: 0.1em; text-transform: uppercase; }
+  .participants-list { padding: 0 1rem 2rem; }
+  .participant-row {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 12px; padding: 1rem; margin-bottom: 0.7rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .participant-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--rose));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-weight: 700; color: white;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .participant-name { font-weight: 600; color: var(--cream); font-size: 1rem; }
+  .participant-info { font-size: 0.85rem; color: var(--text-soft); }
+  .progress-bar-wrap { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-top: 0.4rem; }
+  .progress-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--gold), var(--ember)); }
+
+  /* WhatsApp float */
+  .whatsapp-float {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    transition: all 0.3s;
+    animation: wa-pulse 3s ease-in-out infinite;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37,211,102,0.7); }
+  @keyframes wa-pulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 4px 30px rgba(37,211,102,0.8); }
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%);
+    background: var(--deep-mid); border: 1px solid var(--gold);
+    color: var(--cream); padding: 0.7rem 1.5rem;
+    border-radius: 50px; font-size: 0.95rem; z-index: 1000;
+    opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(10,5,20,0.85); backdrop-filter: blur(5px);
+    display: none; align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-card {
+    background: var(--deep-mid); border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 20px; padding: 2rem 1.8rem;
+    max-width: 420px; width: 100%; text-align: center;
+  }
+  .modal-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+  .modal-title {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem;
+    color: var(--gold); font-style: italic; margin-bottom: 0.6rem;
+  }
+  .modal-msg { font-size: 1rem; color: var(--warm); line-height: 1.7; margin-bottom: 1.5rem; }
+  .modal-btns { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+
+  /* Admin password */
+  .admin-gate {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 2rem;
+    background: var(--deep);
+  }
+  .admin-gate-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 20px; padding: 2rem; max-width: 360px; width: 100%; text-align: center;
+  }
+
+  /* Tabs */
+  .tabs { display: flex; border-bottom: 1px solid rgba(201,168,76,0.15); margin: 0; }
+  .tab-btn {
+    flex: 1; padding: 0.8rem; background: none; border: none;
+    color: var(--text-soft); font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Scroll */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeInUp 0.5s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; opacity: 0; }
+  .delay-2 { animation-delay: 0.2s; opacity: 0; }
+  .delay-3 { animation-delay: 0.3s; opacity: 0; }
+  .delay-4 { animation-delay: 0.4s; opacity: 0; }
+</style>
+</head>
+<body>
+
+<div class="flame-bg"></div>
+
+<!-- SPLASH SCREEN -->
+<div id="splash" class="screen active">
+  <div class="splash-flame">🔥</div>
+  <div class="splash-title fade-in">REKINDLED</div>
+  <div class="splash-sub fade-in delay-1">7-Day Ministry Retreat</div>
+  <div class="gold-line fade-in delay-2"></div>
+  <div class="splash-tagline fade-in delay-2">
+    Redefined · Realigned · Refilled · Rekindled<br>
+    <em>For women and youth in ministry</em>
+  </div>
+  <div class="fade-in delay-3" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+    <button class="btn-gold" onclick="showSignup()">Begin Your Retreat</button>
+    <button class="btn-outline" onclick="showLogin()">I Already Started</button>
+  </div>
+  <div class="fade-in delay-4" style="margin-top:1.2rem;">
+    <button class="btn-ember" onclick="showAdminGate()" style="font-size:0.85rem;padding:0.5rem 1.2rem;">Admin View</button>
+  </div>
+  <div style="margin-top:2.5rem;font-size:0.85rem;color:var(--text-soft);font-style:italic;" class="fade-in delay-4">
+    "He restores my soul" — Psalm 23:3
+  </div>
+</div>
+
+<!-- SIGNUP SCREEN -->
+<div id="signup" class="screen">
+  <div class="signup-card fade-in">
+    <div class="signup-title">🔥 Welcome, Beloved</div>
+    <div class="signup-sub">Begin your journey to restoration</div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="reg-name" placeholder="Your name before the Lord…">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="reg-email" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label>WhatsApp Number</label>
+      <input type="tel" id="reg-phone" placeholder="+237 xxx xxx xxx">
+    </div>
+    <div class="form-group">
+      <label>Your Ministry Role</label>
+      <select id="reg-role">
+        <option value="">Select your role…</option>
+        <option>Pastor / Church Leader</option>
+        <option>Worship Leader</option>
+        <option>Women's Ministry Leader</option>
+        <option>Youth Leader</option>
+        <option>Evangelist / Missionary</option>
+        <option>Prayer Warrior / Intercessor</option>
+        <option>Deaconess / Elder</option>
+        <option>Ministry Volunteer</option>
+        <option>Youth in Ministry</option>
+        <option>Other Ministry Role</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>What brings you here today?</label>
+      <select id="reg-reason">
+        <option value="">What is your heart saying?</option>
+        <option>Burnout & Exhaustion</option>
+        <option>Betrayal & Hurt</option>
+        <option>Depression & Darkness</option>
+        <option>Confusion & Lost Direction</option>
+        <option>Trauma & Invisible Wounds</option>
+        <option>Dissatisfaction in Ministry</option>
+        <option>General Spiritual Renewal</option>
+        <option>All of the above</option>
+      </select>
+    </div>
+    <button class="btn-gold" style="width:100%;margin-top:0.5rem;" onclick="registerUser()">Enter the Retreat ✦</button>
+    <div style="text-align:center;margin-top:1rem;">
+      <button class="btn-outline" onclick="showScreen('splash')" style="font-size:0.85rem;padding:0.5rem 1.2rem;">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD SCREEN -->
+<div id="dashboard" class="screen">
+  <div class="nav-bar">
+    <div class="nav-logo">RE<span>KIN</span>DLED</div>
+    <div class="nav-user" id="nav-username"></div>
+    <div class="nav-btns">
+      <button class="nav-btn" onclick="showCompletionIfDone()" title="My Progress">⭐</button>
+      <button class="nav-btn" onclick="confirmLogout()" title="Logout">↩</button>
+    </div>
+  </div>
+  <div class="dash-header">
+    <div class="dash-greeting" id="dash-greeting">Peace be with you</div>
+    <div class="dash-verse" id="dash-verse">"He restores my soul…" — Psalm 23:3</div>
+    <div class="gold-line"></div>
+    <div class="progress-label">Your 7-Day Journey</div>
+    <div class="progress-track" id="progress-track"></div>
+  </div>
+  <div class="days-grid" id="days-grid"></div>
+</div>
+
+<!-- RETREAT DAY SCREEN -->
+<div id="retreat-day" class="screen">
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="showScreen('dashboard')" style="font-size:1rem;">← Back</button>
+    <div class="nav-logo">RE<span>KIN</span>DLED</div>
+    <div class="nav-btn" id="day-completion-icon"></div>
+  </div>
+  <div class="retreat-hero">
+    <div class="retreat-day-badge" id="retreat-day-badge"></div>
+    <div class="retreat-title" id="retreat-title"></div>
+    <div class="retreat-theme" id="retreat-theme"></div>
+  </div>
+  <div id="retreat-content"></div>
+</div>
+
+<!-- COMPLETION SCREEN -->
+<div id="completion" class="screen">
+  <div class="completion-flame">🔥</div>
+  <div class="completion-title fade-in">REKINDLED</div>
+  <div class="completion-sub fade-in delay-1">You have walked through the fire</div>
+  <div class="gold-line"></div>
+  <div class="completion-message fade-in delay-2">
+    You came wounded. You stayed faithful. You are now <strong>redefined, realigned, refilled</strong>, and <strong>rekindled</strong> for the work ahead. The flame in you burns brighter than ever.
+  </div>
+  <div class="fade-in delay-3" style="font-style:italic;color:var(--gold-pale);font-size:1rem;margin-bottom:2rem;max-width:360px;">
+    "Those who wait on the Lord shall renew their strength; they shall mount up with wings as eagles." — Isaiah 40:31
+  </div>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;" class="fade-in delay-4">
+    <button class="btn-gold" onclick="showScreen('dashboard')">Back to Retreat</button>
+    <a href="https://wa.me/237673202653?text=I+have+completed+the+REKINDLED+7-Day+Retreat!" target="_blank" class="btn-ember" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;">💬 Share on WhatsApp</a>
+  </div>
+</div>
+
+<!-- ADMIN GATE -->
+<div id="admin-gate-screen" class="screen" style="align-items:center;justify-content:center;background:var(--deep);">
+  <div class="admin-gate-card">
+    <div style="font-size:2.5rem;margin-bottom:0.8rem;">🔐</div>
+    <div class="signup-title" style="font-size:1.5rem;">Admin Access</div>
+    <div class="signup-sub">Liberty Publishing House</div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="admin-pw" placeholder="Enter admin password…">
+    </div>
+    <button class="btn-gold" style="width:100%;" onclick="checkAdminPw()">Enter</button>
+    <div style="margin-top:1rem;text-align:center;">
+      <button class="btn-outline" onclick="showScreen('splash')" style="font-size:0.85rem;padding:0.5rem 1.2rem;">← Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN SCREEN -->
+<div id="admin-screen" class="screen">
+  <div class="nav-bar">
+    <button class="nav-btn" onclick="showScreen('splash')">← Exit</button>
+    <div class="nav-logo">RE<span>KIN</span>DLED 🔐</div>
+    <div></div>
+  </div>
+  <div class="admin-header">
+    <div class="admin-title">Retreat Dashboard</div>
+    <div style="font-size:0.85rem;color:var(--text-soft);margin-top:0.3rem;">Liberty Publishing House</div>
+  </div>
+  <div class="stats-row" id="admin-stats"></div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('participants')">Participants</button>
+    <button class="tab-btn" onclick="switchTab('prayer')">Prayer Requests</button>
+  </div>
+  <div id="tab-participants" class="tab-content active">
+    <div class="participants-list" id="admin-participants-list"></div>
+  </div>
+  <div id="tab-prayer" class="tab-content">
+    <div class="participants-list" id="admin-prayer-list"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-card">
+    <div class="modal-icon" id="modal-icon"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-msg" id="modal-msg"></div>
+    <div class="modal-btns" id="modal-btns"></div>
+  </div>
+</div>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/237673202653?text=Hello!+I+need+support+from+REKINDLED+Retreat" target="_blank" class="whatsapp-float" title="Emergency Support">💬</a>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  DATA STORE (localStorage)
+// ============================================================
+const STORE_KEY = 'rekindled_v2';
+
+function getData() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || { users: [], currentUser: null }; }
+  catch { return { users: [], currentUser: null }; }
+}
+function saveData(d) { localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+
+// ============================================================
+//  RETREAT DATA
+// ============================================================
+const DAYS = [
+  {
+    day: 1, emoji: '🌑',
+    title: 'Into the Dark Night',
+    theme: 'Depression & Spiritual Darkness',
+    color: '#6B4F9A',
+    verse: '"Even the darkness is not dark to You; the night is as bright as the day." — Psalm 139:12',
+    meditation: `Ministry can lead you into places no one told you about — the dark nights where prayer feels like shouting into silence, where the bed becomes a sanctuary of tears, and where the calling that once set your heart ablaze now feels like a heavy stone.
+
+Depression in ministry is real, and it is not a sign of weak faith. Even Elijah — the mighty prophet who called fire from heaven — sat under a juniper tree and asked God to take his life. Even David, the man after God's own heart, penned laments soaked in anguish. You are in holy company.
+
+The darkness you feel is not God's absence. It is often the womb of a deeper encounter. In the night season, He is not sleeping — He is sculpting.
+
+Today, you are invited not to perform recovery, but to be honest. Lay your grief at His feet. Don't rush out of the dark; let Him meet you in it. He came as a light into darkness — and the darkness could not overcome Him, and it cannot overcome you.`,
+    confession: `Lord, I confess I have been carrying this darkness alone, afraid that admitting it would disqualify me from ministry. I confess I have worn a smile that hid a broken heart. Forgive me for the moments I doubted Your presence in my night.`,
+    prayer: `Father of lights, You see me in this darkness. You see the tears I've shed when no one was watching. You see the exhaustion behind my "I'm fine." I come to You honestly today — I am not okay. But I know You are able to be my light even here.
+
+Restore my soul. Be the lamp unto my feet when I cannot see two steps ahead. Remind me that weeping may endure for a night, but joy comes in the morning. I receive Your presence in this darkness. I am not alone. Amen.`
+  },
+  {
+    day: 2, emoji: '🔥',
+    title: 'When the Flame Burns Out',
+    theme: 'Burnout & Ministry Exhaustion',
+    color: '#C9703A',
+    verse: '"Come to Me, all you who are weary and burdened, and I will give you rest." — Matthew 11:28',
+    meditation: `You poured out. And poured out. And poured out some more. You counselled when your own heart was breaking. You led worship when your praise felt hollow. You served behind the scenes while quietly dying inside.
+
+Burnout is not laziness — it is the price of pouring from an empty vessel. It happens to the most devoted servants. It happened to Moses who could not even lift his arms alone. It happened to the disciples who fell asleep in the garden despite their best intentions.
+
+The burnout you feel is a signal, not a failure. Your body, mind and spirit are crying out for the one thing ministry can crowd out: intimacy with the Source. You've been doing the work of God but perhaps drifting from the God of the work.
+
+Today, Jesus is not asking you for another sermon, another song, another service. He is holding out His hand and saying: "Come with me to a quiet place and rest." (Mark 6:31)
+
+You cannot rekindle others if your own flame has guttered out. Receiving is ministry too.`,
+    confession: `Lord, I confess I have measured my worth by my productivity for You, not by my identity in You. I confess I have neglected my own soul in service of others. I have feared rest as laziness and called exhaustion faithfulness. Forgive me.`,
+    prayer: `Lord of the Sabbath, You who rested on the seventh day not from weakness but as a gift — teach me the holiness of rest. Restore me to the green pastures and still waters Your Word promises.
+
+Unload the heavy burdens I was never meant to carry. Help me learn the difference between the yoke You place upon me and the ones I have picked up on my own. Rekindle in me a love for Your presence that is not driven by duty but by delight.
+
+Let me find my worth not in what I do for You, but in who I am to You. I choose rest in You today. Amen.`
+  },
+  {
+    day: 3, emoji: '💔',
+    title: 'The Wound from Friendly Hands',
+    theme: 'Betrayal & Hurt in Ministry',
+    color: '#C4687A',
+    verse: '"For it is not an enemy who taunts me — then I could bear it… but it is you, my equal, my companion." — Psalm 55:12-13',
+    meditation: `There is a particular agony in being wounded by those you served alongside, prayed with, and trusted with your vulnerabilities. When betrayal comes from within the church, within the leadership team, within the sisterhood — it cuts deep into the very place where your calling lives.
+
+Perhaps someone took credit for your sacrifice. Perhaps they spread lies to protect themselves. Perhaps they turned congregations against you, or used your transparency as ammunition. Perhaps the shepherd became the wolf.
+
+David wept these words not about his enemies, but about a close friend. Jesus was betrayed by someone He broke bread with. The wound from familiar hands is the oldest wound in ministry history.
+
+But hear this: your betrayal does not disqualify your calling. What was meant to bury you will become the soil from which a new and stronger version of your ministry grows. Betrayal breaks the container, but it cannot steal the anointing.
+
+You are allowed to grieve. You are allowed to be angry. But you are not destined to be defined by what was done to you.`,
+    confession: `Lord, I confess the bitterness I have carried toward those who hurt me. I confess the nights I replayed the betrayal, nursing the wound and feeding the offence. I confess I have sometimes wanted revenge more than restoration. Forgive me. Help me forgive.`,
+    prayer: `Healer of the broken-hearted, You know what it feels like to be betrayed by those closest to You. You bore that wound too. Come now and meet me in mine.
+
+I release [name/situation] into Your hands. I choose, by an act of my will — not feeling — to forgive. Remove the poison of bitterness from my spirit. Guard my heart from becoming hard, cynical, or closed.
+
+Restore my ability to trust wisely. Restore my willingness to love again. Vindicate me in Your time and in Your way. You are my Defender. Amen.`
+  },
+  {
+    day: 4, emoji: '🌫️',
+    title: 'When You Cannot Find the Way',
+    theme: 'Confusion & Loss of Direction',
+    color: '#4A7A9B',
+    verse: '"Trust in the Lord with all your heart and lean not on your own understanding; in all your ways acknowledge Him, and He will make your paths straight." — Proverbs 3:5-6',
+    meditation: `You started this journey with a clear sense of call. You knew the vision, the mission, the assignment. But somewhere along the way, the clarity evaporated and now you stand at an intersection with no signpost, no map, and a compass that seems to spin wildly.
+
+Ministry confusion is disorienting precisely because we feel we should always know. Leaders are supposed to lead. Pastors are supposed to have the word. Prophets are supposed to hear.
+
+But Elisha needed a double portion. Paul went into Arabia for three years after his Damascus road encounter. Even Jesus, before launching His public ministry, spent forty days in the wilderness.
+
+Seasons of confusion are often divine repositioning. God is not lost — He is leading you through what looks like wilderness to prepare you for a new terrain of ministry. The mist you're walking through is not abandonment; it is the cloud of His presence going before you.
+
+Stop demanding clarity before you take another step. Begin to trust that He who started this work knows exactly where it is going — even when you don't.`,
+    confession: `Lord, I confess the anxiety of needing to have all the answers. I confess the times I ran ahead of You seeking clarity, or froze in place demanding certainty before moving. I confess I have sometimes trusted my own map more than Your voice.`,
+    prayer: `Lord, You are the Way. Even when I cannot see the way, You are it. I lay down my need to have it all figured out. I release the plans I made without consulting You and the ones I've been holding too tightly.
+
+Speak, Lord, for Your servant is listening. Lead me by Your Spirit. Order my steps. Redirect what I have misdirected. Clarify what has become confused.
+
+And in the waiting — give me peace that passes understanding. You know the plans You have for me. I choose to rest in that. Amen.`
+  },
+  {
+    day: 5, emoji: '🩹',
+    title: 'The Wounds No One Can See',
+    theme: 'Trauma, Invisible Wounds & Unprocessed Grief',
+    color: '#7A4A9B',
+    verse: '"He heals the brokenhearted and binds up their wounds." — Psalm 147:3',
+    meditation: `You look fine from the outside. You preach fire. You lead with authority. You smile and serve and show up. But inside — inside there is a wound so deep that even you have been afraid to look directly at it.
+
+Trauma in ministry takes many forms: spiritual abuse endured in silence, childhood wounds dragged into leadership, losses never properly mourned, things witnessed or experienced that lodged in the soul like splinters. These invisible wounds shape how you lead, how you love, how you receive.
+
+The tragedy is that in ministry culture, there is often no space to be broken. Leaders are supposed to be strong. Ministers are supposed to have moved on. So you press the wound down, dress it up in theological language, and keep moving — not realising that untreated wounds in leaders become the wounds of their congregations.
+
+Today, permission is granted. You are allowed to have been hurt. You are allowed to still be in process. You do not have to be fully healed to be used by God — but you deserve the journey toward wholeness.
+
+His stripes were for your healing. Not just healing in the abstract — your healing. Specific. Personal. Deep.`,
+    confession: `Lord, I confess the things I have never said aloud. The wounds I've carried because there seemed no safe place to put them. I confess I have at times allowed unhealed wounds to wound others. I am sorry. I come today in my brokenness, not performing wholeness I don't yet have.`,
+    prayer: `Great Physician, You see every wound — the ones with visible scars and the ones buried beneath competence and calling. Today I bring You what I've never brought before: the deep thing. The old thing. The thing I've never fully named.
+
+Heal me, Lord. Not the surface — go deep. Work through every layer of pain, disappointment, grief and loss. Send Your Spirit as a counsellor and comforter into those interior rooms I've kept locked.
+
+Help me find safe people and safe spaces to continue this healing journey. And let my healed wounds become the very place from which I minister most powerfully. Amen.`
+  },
+  {
+    day: 6, emoji: '😶',
+    title: 'The Ministry I No Longer Recognise',
+    theme: 'Dissatisfaction, Disillusionment & Identity Crisis',
+    color: '#4A9B7A',
+    verse: '"For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do." — Ephesians 2:10',
+    meditation: `You do not recognize the ministry you are in anymore. Or perhaps you no longer recognize yourself within it. What began as burning passion has become mechanical routine. The joy is gone from the pulpit. The songs feel hollow. The people you serve feel like obligations rather than beloveds.
+
+Disillusionment in ministry is common and rarely spoken of. You may have built something beautiful and feel empty inside it. You may have given your best years and question whether it was worth it. You may wonder who you are outside of your title, your role, your platform.
+
+Identity crisis in ministry happens when we have forgotten that we were daughters and sons before we were servants. When the role swallows the person.
+
+You are not your ministry. Ministry flows from identity, not the other way around. The Father is not more pleased with you when you are producing, and no less pleased in your seasons of stillness.
+
+Who are you when no one is watching? When there is no microphone, no title, no congregation? That person — that beloved, chosen, Spirit-filled human — is the one worth tending today.`,
+    confession: `Lord, I confess I have lost myself in doing Your work. I confess dissatisfaction that I have not known how to voice, and disillusionment I've been ashamed to admit. I confess that ministry has at times become performance rather than presence.`,
+    prayer: `Father, before I was ever a minister, I was Your child. Remind me of that. Strip away the titles and restore the intimacy.
+
+Reignite genuine passion for what You've called me to — not manufactured enthusiasm, but real, deep, Spirit-born fire. Realign my purpose with Your original design. Help me rediscover the joy of serving not from compulsion but from overflow.
+
+Show me who I am in You — apart from what I do. And let that identity be the foundation from which everything else is rebuilt. Redefine me, Lord. Amen.`
+  },
+  {
+    day: 7, emoji: '🔥',
+    title: 'The Flame Returns',
+    theme: 'Rekindling, Renewal & Recommissioning',
+    color: '#C9A84C',
+    verse: '"For this reason I remind you to fan into flame the gift of God, which is in you." — 2 Timothy 1:6',
+    meditation: `You have walked through seven days. You have named the darkness. You have sat with your burnout, grieved your betrayals, acknowledged your confusion, brought your invisible wounds to light, and confronted your disillusionment.
+
+You have done the brave thing.
+
+Now comes the rekindling.
+
+This is not a rekindling of performance or of religious duty. This is the rekindling of the flame that was placed in you before you were born — the holy burning that no season of ministry, no wound of betrayal, no night of depression, no confusion of direction, no depth of trauma could permanently extinguish.
+
+The fire of God in you is not a campfire that the wind can simply blow out. It is an altar fire — and even when the offerings run low and the wood grows scarce and the rain seems to extinguish everything — He is able to call the fire back down.
+
+You are not who the hard seasons said you were. You are who God said you are: His workmanship, His servant, His beloved, His chosen, His anointed.
+
+You have been redefined.
+You have been realigned.
+You have been refilled.
+You are now REKINDLED.
+
+Go, and set others ablaze.`,
+    confession: `Lord, I confess that I came to this retreat unsure I would make it through. I confess the doubt, the weariness, the near-surrenders. I confess the moments I almost gave up on calling, on church, on myself. Thank You that You never gave up on me.`,
+    prayer: `God of the burning bush — You who appear in flames that consume but do not destroy — let me be that bush again. Let Your fire rest on me without consuming me, but setting me apart, making me holy ground.
+
+I receive a fresh commissioning today. Not because I am deserving, but because You are faithful. Fan the gift in me into full flame. Restore the joy of my salvation. Reawaken the calling. Refill what has been emptied.
+
+And as You send me back into the harvest field, let those who were present when I was broken become witnesses to what Your restoration power looks like.
+
+I am Rekindled. I am Recommissioned. I am Yours.
+
+To the glory of God and the advancement of Your Kingdom — Amen and Amen. 🔥`
+  }
+];
+
+const GREETINGS = [
+  "Peace be with you, beloved",
+  "You are held, dear servant",
+  "Welcome back, fire-bearer",
+  "He sees you, He loves you",
+  "You made it back. Keep going."
+];
+
+const VERSES = [
+  '"He restores my soul…" — Psalm 23:3',
+  '"I will restore to you the years that the locust has eaten." — Joel 2:25',
+  '"He gives strength to the weary and increases the power of the weak." — Isaiah 40:29',
+  '"Create in me a pure heart, O God, and renew a steadfast spirit within me." — Psalm 51:10',
+  '"You have turned my mourning into dancing." — Psalm 30:11'
+];
+
+// ============================================================
+//  SCREEN NAVIGATION
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showSignup() { showScreen('signup'); }
+
+function showLogin() {
+  const data = getData();
+  if (!data.users || data.users.length === 0) {
+    showToast("No account found. Please sign up first.");
+    showScreen('signup');
+    return;
+  }
+  // If there's only one user or a current user saved, auto-login
+  if (data.currentUser) {
+    const user = data.users.find(u => u.email === data.currentUser);
+    if (user) { loadDashboard(user); return; }
+  }
+  // Show a simple name/email prompt
+  showModal('🔥', 'Welcome Back',
+    'Please enter your registered email address to continue your retreat.',
+    [{ label: 'Continue', action: 'promptLoginEmail()', cls: 'btn-gold' },
+     { label: 'Cancel', action: "closeModal()", cls: 'btn-outline' }]
+  );
+}
+
+function promptLoginEmail() {
+  closeModal();
+  const email = prompt('Enter your email address:');
+  if (!email) return;
+  const data = getData();
+  const user = data.users.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
+  if (user) { loadDashboard(user); }
+  else { showToast("Email not found. Please sign up first."); showScreen('signup'); }
+}
+
+// ============================================================
+//  REGISTRATION
+// ============================================================
+function registerUser() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const role = document.getElementById('reg-role').value;
+  const reason = document.getElementById('reg-reason').value;
+  if (!name || !email) { showToast("Please enter your name and email."); return; }
+
+  const data = getData();
+  const existing = data.users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (existing) {
+    showToast("Welcome back! Loading your retreat…");
+    data.currentUser = existing.email;
+    saveData(data);
+    loadDashboard(existing);
+    return;
+  }
+  const user = {
+    id: Date.now(),
+    name, email, phone, role, reason,
+    registeredAt: new Date().toISOString(),
+    completedDays: [],
+    prayers: {},
+    confessions: {}
+  };
+  data.users.push(user);
+  data.currentUser = email;
+  saveData(data);
+  showToast("Welcome, " + name.split(' ')[0] + "! Your retreat begins now. 🔥");
+  loadDashboard(user);
+}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function loadDashboard(user) {
+  const data = getData();
+  const u = data.users.find(u => u.email === user.email) || user;
+
+  document.getElementById('nav-username').textContent = u.name.split(' ')[0];
+  document.getElementById('dash-greeting').textContent = GREETINGS[Math.floor(Math.random() * GREETINGS.length)] + ', ' + u.name.split(' ')[0];
+  document.getElementById('dash-verse').textContent = VERSES[Math.floor(Math.random() * VERSES.length)];
+
+  // Progress dots
+  const track = document.getElementById('progress-track');
+  track.innerHTML = '';
+  DAYS.forEach((d, i) => {
+    const done = u.completedDays.includes(d.day);
+    const isNext = !done && (i === 0 || u.completedDays.includes(i));
+    const dot = document.createElement('div');
+    dot.className = 'day-dot' + (done ? ' completed' : (isNext ? ' active' : ''));
+    dot.innerHTML = `<span class="day-num">${d.day}</span><span class="day-icon">${d.emoji}</span>`;
+    dot.onclick = () => openDay(d.day);
+    track.appendChild(dot);
+  });
+
+  // Day cards
+  const grid = document.getElementById('days-grid');
+  grid.innerHTML = '';
+  const nextDay = u.completedDays.length + 1;
+  DAYS.forEach((d, i) => {
+    const done = u.completedDays.includes(d.day);
+    const locked = d.day > nextDay;
+    const card = document.createElement('div');
+    card.className = 'day-card' + (locked ? ' locked' : '') + (done ? ' completed-card' : '');
+    card.innerHTML = `
+      <div class="day-card-icon">${d.emoji}</div>
+      <div class="day-card-info">
+        <div class="day-card-label">Day ${d.day} ${locked ? '· Locked' : done ? '· Completed ✓' : '· Active'}</div>
+        <div class="day-card-title">${d.title}</div>
+        <div class="day-card-theme">${d.theme}</div>
+      </div>
+      <div class="day-card-badge">${done ? '✅' : locked ? '🔒' : '▶'}</div>
+    `;
+    if (!locked) card.onclick = () => openDay(d.day);
+    grid.appendChild(card);
+  });
+
+  showScreen('dashboard');
+
+  if (u.completedDays.length === 7) {
+    setTimeout(() => showCompletionIfDone(), 400);
+  }
+}
+
+function showCompletionIfDone() {
+  const data = getData();
+  const u = data.users.find(u => u.email === data.currentUser);
+  if (u && u.completedDays.length === 7) showScreen('completion');
+  else showToast("Complete all 7 days to unlock your Rekindling! 🔥");
+}
+
+function confirmLogout() {
+  showModal('↩', 'Leaving Retreat?', 'Your progress is saved. You can return anytime with your email.',
+    [{ label: 'Yes, Exit', action: 'doLogout()', cls: 'btn-rose' },
+     { label: 'Stay In', action: 'closeModal()', cls: 'btn-gold' }]);
+}
+
+function doLogout() {
+  const data = getData();
+  data.currentUser = null;
+  saveData(data);
+  closeModal();
+  showScreen('splash');
+}
+
+// ============================================================
+//  RETREAT DAY
+// ============================================================
+let currentDayNum = null;
+let aiMessages = {};
+
+function openDay(dayNum) {
+  const day = DAYS.find(d => d.day === dayNum);
+  if (!day) return;
+  currentDayNum = dayNum;
+
+  const data = getData();
+  const u = data.users.find(u => u.email === data.currentUser);
+  const isDone = u && u.completedDays.includes(dayNum);
+
+  document.getElementById('retreat-day-badge').textContent = `Day ${day.day} of 7 · ${day.theme}`;
+  document.getElementById('retreat-title').textContent = day.title;
+  document.getElementById('retreat-theme').textContent = day.emoji + ' ' + day.theme;
+  document.getElementById('day-completion-icon').textContent = isDone ? '✅' : '';
+
+  const savedPrayer = (u && u.prayers[dayNum]) || '';
+  const savedConf = (u && u.confessions[dayNum]) || '';
+
+  document.getElementById('retreat-content').innerHTML = `
+    <!-- Scripture -->
+    <div class="content-section">
+      <div class="section-header">
+        <span class="section-icon">📖</span>
+        <span class="section-title">Today's Scripture</span>
+      </div>
+      <div class="scripture-block">
+        ${day.verse.split('—')[0]}
+        <div class="scripture-ref">— ${day.verse.split('—')[1]}</div>
+      </div>
+    </div>
+
+    <!-- Meditation -->
+    <div class="content-section">
+      <div class="section-header" onclick="toggleSection('meditation-body')">
+        <span class="section-icon">🕊️</span>
+        <span class="section-title">Meditation</span>
+        <span class="section-toggle" id="med-toggle">▾</span>
+      </div>
+      <div class="section-body" id="meditation-body">
+        ${day.meditation.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+      </div>
+    </div>
+
+    <!-- AI Companion -->
+    <div class="content-section">
+      <div class="section-header" onclick="toggleAI()">
+        <span class="section-icon">💬</span>
+        <span class="section-title">Talk It Through (AI Companion)</span>
+        <span class="section-toggle" id="ai-toggle">▾</span>
+      </div>
+      <div class="ai-chat-area" id="ai-chat-area">
+        <div class="ai-messages" id="ai-msgs"></div>
+        <div class="ai-input-row">
+          <input type="text" id="ai-input" placeholder="Share what's on your heart…" onkeydown="if(event.key==='Enter')sendAI()">
+          <button class="ai-send-btn" onclick="sendAI()">✦</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confession -->
+    <div class="content-section">
+      <div class="section-header" onclick="toggleSection('conf-body')">
+        <span class="section-icon">🙏</span>
+        <span class="section-title">Confession</span>
+        <span class="section-toggle" id="conf-toggle">▾</span>
+      </div>
+      <div class="section-body" id="conf-body">
+        ${day.confession.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+      </div>
+    </div>
+
+    <!-- Prayer -->
+    <div class="content-section">
+      <div class="section-header" onclick="toggleSection('prayer-body')">
+        <span class="section-icon">✨</span>
+        <span class="section-title">Prayer</span>
+        <span class="section-toggle" id="prayer-toggle">▾</span>
+      </div>
+      <div class="section-body" id="prayer-body">
+        ${day.prayer.split('\n\n').map(p => `<p>${p}</p>`).join('')}
+      </div>
+    </div>
+
+    <!-- Personal Journal -->
+    <div class="personal-section">
+      <div class="personal-card">
+        <div class="personal-card-title">✍️ My Personal Confession</div>
+        <textarea id="my-confession" placeholder="Write your own personal confession to God today…">${savedConf}</textarea>
+      </div>
+      <div class="personal-card">
+        <div class="personal-card-title">🙏 My Personal Prayer</div>
+        <textarea id="my-prayer" placeholder="Write your own prayer in response to today's retreat…">${savedPrayer}</textarea>
+      </div>
+    </div>
+
+    <div class="complete-section">
+      ${isDone
+        ? `<button class="btn-outline" onclick="showScreen('dashboard')">← Return to Journey</button>
+           <div class="complete-msg">✅ You've completed this day. Well done.</div>`
+        : `<button class="btn-gold" onclick="completeDay(${dayNum})">Mark Day ${dayNum} Complete ✦</button>
+           <div class="complete-msg">"He who began a good work in you will carry it on to completion." — Phil 1:6</div>`
+      }
+    </div>
+  `;
+
+  // Init AI messages for this day
+  if (!aiMessages[dayNum]) aiMessages[dayNum] = [];
+  renderAIMessages(dayNum);
+
+  showScreen('retreat-day');
+}
+
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const isOpen = el.style.display !== 'none' && el.style.display !== '';
+  el.style.display = isOpen ? 'none' : 'block';
+  // Toggle icon
+  const prefix = id.replace('-body','').replace('meditation','med').replace('conf','conf').replace('prayer-body','prayer').split('-')[0];
+  const toggle = document.getElementById(prefix + '-toggle');
+  if (toggle) toggle.textContent = isOpen ? '▸' : '▾';
+}
+
+function toggleAI() {
+  const area = document.getElementById('ai-chat-area');
+  const toggle = document.getElementById('ai-toggle');
+  area.classList.toggle('open');
+  toggle.textContent = area.classList.contains('open') ? '▾' : '▸';
+  if (area.classList.contains('open') && aiMessages[currentDayNum]?.length === 0) {
+    const day = DAYS.find(d => d.day === currentDayNum);
+    addAIMsg(currentDayNum, 'assistant', `Peace be with you. Today we sit together in the theme of "${day.theme}". What is stirring in your heart right now? You can share freely — this is a safe space before the Lord.`);
+  }
+}
+
+function renderAIMessages(dayNum) {
+  const container = document.getElementById('ai-msgs');
+  if (!container) return;
+  container.innerHTML = '';
+  (aiMessages[dayNum] || []).forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'ai-msg ' + m.role;
+    div.textContent = m.text;
+    container.appendChild(div);
+  });
+  container.scrollTop = container.scrollHeight;
+}
+
+function addAIMsg(dayNum, role, text) {
+  if (!aiMessages[dayNum]) aiMessages[dayNum] = [];
+  aiMessages[dayNum].push({ role, text });
+  renderAIMessages(dayNum);
+}
+
+async function sendAI() {
+  const input = document.getElementById('ai-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  const dayNum = currentDayNum;
+  const day = DAYS.find(d => d.day === dayNum);
+
+  addAIMsg(dayNum, 'user', msg);
+  addAIMsg(dayNum, 'assistant loading', '…praying with you…');
+
+  const history = (aiMessages[dayNum] || [])
+    .filter(m => m.role !== 'assistant loading')
+    .slice(-8)
+    .map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text }));
+
+  const systemPrompt = `You are a compassionate, Spirit-led retreat companion within the REKINDLED 7-Day Ministry Retreat — a Christian healing retreat for women and youth in ministry. 
+
+Today's theme: "${day.theme}"
+Today's scripture: ${day.verse}
+Today's meditation context: ${day.meditation.substring(0, 400)}
+
+Your role: Be a safe, warm, gospel-grounded presence. Offer comfort, biblical insight, gentle reflection questions, and encouragement. Never replace professional counseling — gently recommend it for serious mental health concerns. Keep responses concise (3-5 sentences). Pray with them when appropriate. Speak with warmth, faith, and deep empathy. Never be preachy or dismissive of real pain. You represent Liberty Publishing House's REKINDLED retreat — rooted in healing, restoration and revival.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [...history, { role: 'user', content: msg }]
+      })
+    });
+    const data = await resp.json();
+    const reply = data.content?.[0]?.text || 'The Spirit intercedes for us with groanings too deep for words. You are not alone.';
+    aiMessages[dayNum] = aiMessages[dayNum].filter(m => m.role !== 'assistant loading');
+    addAIMsg(dayNum, 'assistant', reply);
+  } catch {
+    aiMessages[dayNum] = aiMessages[dayNum].filter(m => m.role !== 'assistant loading');
+    addAIMsg(dayNum, 'assistant', 'He is close to the brokenhearted. Even when technology fails, His presence does not. Take a moment to sit quietly with Him.');
+  }
+}
+
+function completeDay(dayNum) {
+  // Save personal notes
+  const prayer = document.getElementById('my-prayer')?.value || '';
+  const confession = document.getElementById('my-confession')?.value || '';
+
+  const data = getData();
+  const u = data.users.find(u => u.email === data.currentUser);
+  if (!u) return;
+
+  if (!u.completedDays.includes(dayNum)) u.completedDays.push(dayNum);
+  u.prayers[dayNum] = prayer;
+  u.confessions[dayNum] = confession;
+  saveData(data);
+
+  showToast("Day " + dayNum + " complete! 🔥 He is faithful.");
+
+  if (u.completedDays.length === 7) {
+    setTimeout(() => showScreen('completion'), 800);
+  } else {
+    setTimeout(() => loadDashboard(u), 800);
+  }
+}
+
+// ============================================================
+//  ADMIN
+// ============================================================
+const ADMIN_PW = 'liberty2024';
+
+function showAdminGate() { showScreen('admin-gate-screen'); }
+
+function checkAdminPw() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PW) { document.getElementById('admin-pw').value = ''; loadAdmin(); }
+  else { showToast("Incorrect password."); }
+}
+
+function loadAdmin() {
+  const data = getData();
+  const users = data.users || [];
+
+  const completed = users.filter(u => u.completedDays.length === 7).length;
+  const inProgress = users.filter(u => u.completedDays.length > 0 && u.completedDays.length < 7).length;
+
+  document.getElementById('admin-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${users.length}</div><div class="stat-label">Registered</div></div>
+    <div class="stat-card"><div class="stat-num">${inProgress}</div><div class="stat-label">In Progress</div></div>
+    <div class="stat-card"><div class="stat-num">${completed}</div><div class="stat-label">Rekindled 🔥</div></div>
+  `;
+
+  const list = document.getElementById('admin-participants-list');
+  if (users.length === 0) {
+    list.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--text-soft);font-style:italic;">No participants yet</div>';
+  } else {
+    list.innerHTML = users.map(u => {
+      const pct = Math.round((u.completedDays.length / 7) * 100);
+      const initials = u.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+      return `
+        <div class="participant-row">
+          <div class="participant-avatar">${initials}</div>
+          <div style="flex:1;">
+            <div class="participant-name">${u.name}</div>
+            <div class="participant-info">${u.role || 'Ministry'} · ${u.reason || ''}</div>
+            <div class="participant-info">${u.phone || u.email}</div>
+            <div class="participant-info">Days: ${u.completedDays.join(', ') || 'None yet'} — ${pct}%</div>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  const pList = document.getElementById('admin-prayer-list');
+  const withPrayers = users.filter(u => Object.keys(u.prayers || {}).length > 0);
+  if (withPrayers.length === 0) {
+    pList.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--text-soft);font-style:italic;">No personal prayers submitted yet</div>';
+  } else {
+    pList.innerHTML = withPrayers.map(u => {
+      const prayers = Object.entries(u.prayers || {}).map(([day, text]) => text ? `<div style="margin-bottom:0.6rem;"><strong>Day ${day}:</strong> ${text}</div>` : '').join('');
+      const initials = u.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+      return `
+        <div class="participant-row" style="flex-direction:column;align-items:flex-start;gap:0.6rem;">
+          <div style="display:flex;align-items:center;gap:0.8rem;">
+            <div class="participant-avatar">${initials}</div>
+            <div><div class="participant-name">${u.name}</div><div class="participant-info">${u.email}</div></div>
+          </div>
+          <div style="font-size:0.92rem;color:var(--warm);line-height:1.6;">${prayers}</div>
+        </div>`;
+    }).join('');
+  }
+
+  showScreen('admin-screen');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ============================================================
+//  MODAL & TOAST
+// ============================================================
+function showModal(icon, title, msg, btns) {
+  document.getElementById('modal-icon').textContent = icon;
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-msg').textContent = msg;
+  document.getElementById('modal-btns').innerHTML = btns.map(b =>
+    `<button class="${b.cls}" onclick="${b.action}">${b.label}</button>`).join('');
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ============================================================
+//  INIT
+// ============================================================
+(function init() {
+  const data = getData();
+  if (data.currentUser) {
+    const u = data.users.find(u => u.email === data.currentUser);
+    if (u) { setTimeout(() => loadDashboard(u), 300); }
+  }
+})();
+</script>
+</body>
+</html>
